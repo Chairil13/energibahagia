@@ -126,8 +126,8 @@
                 </a>
 
                 <a href="{{ route('gallery') }}"
-                    class="font-medium transition-all duration-300 relative group {{ request()->routeIs('gallery') ? 'text-[#8AD337] font-semibold' : 'text-[#183D57] hover:text-[#8AD337]' }}">
-                    Gallery
+                    class="font-medium py-3 px-4 rounded-xl hover:bg-[#8AD337]/10 transition-all duration-300 flex items-center {{ request()->routeIs('gallery') ? 'text-[#8AD337] bg-[#8AD337]/10 font-semibold' : 'text-[#183D57]' }}">
+                    <i class="fas fa-images mr-3 text-[#183D57]"></i> Galeri
                 </a>
                 <a href="{{ route('contact') }}"
                     class="font-medium py-3 px-4 rounded-xl hover:bg-[#8AD337]/10 transition-all duration-300 flex items-center">
