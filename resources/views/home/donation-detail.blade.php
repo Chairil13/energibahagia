@@ -123,43 +123,45 @@
                     </div>
                 </div>
 
-                <!-- Informasi Donatur -->
-                <div class="mb-6 bg-blue-50 border border-blue-200 rounded-2xl p-5">
-                    <div class="flex items-start">
-                        <div class="flex-shrink-0">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                class="w-6 h-6 text-blue-600 mt-1"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M13 16h-1v-4h-1m1-4h.01M21 12A9 9 0 1112 3a9 9 0 019 9z"/>
-                            </svg>
-                        </div>
+                @guest
+                    <!-- Informasi Donatur -->
+                    <div class="mb-6 bg-blue-50 border border-blue-200 rounded-2xl p-5">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    class="w-6 h-6 text-blue-600 mt-1"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M13 16h-1v-4h-1m1-4h.01M21 12A9 9 0 1112 3a9 9 0 019 9z" />
+                                </svg>
+                            </div>
 
-                        <div class="ml-4">
-                            <h4 class="text-lg font-semibold text-blue-800">
-                                Ingin Memiliki Riwayat Donasi?
-                            </h4>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-semibold text-blue-800">
+                                    Ingin Memiliki Riwayat Donasi?
+                                </h4>
 
-                            <p class="mt-2 text-gray-700 leading-relaxed">
-                                Anda tetap dapat melakukan donasi tanpa memiliki akun.
-                                Namun, dengan mendaftar sebagai <strong>Donatur</strong>, Anda dapat
-                                melihat riwayat donasi, memantau total donasi, mengelola profil,
-                                serta mencetak bukti donasi kapan saja.
-                            </p>
+                                <p class="mt-2 text-gray-700 leading-relaxed">
+                                    Anda tetap dapat melakukan donasi tanpa memiliki akun.
+                                    Namun, dengan mendaftar sebagai <strong>Donatur</strong>, Anda dapat
+                                    melihat riwayat donasi, memantau total donasi, mengelola profil,
+                                    serta mencetak bukti donasi kapan saja.
+                                </p>
 
-                            <div class="mt-4 flex flex-wrap gap-3">
-                                <a href="{{ route('login') }}"
-                                class="px-5 py-2 bg-[#183D57] hover:bg-[#2a5a7a] text-white rounded-lg transition duration-300">
-                                    Daftar Sekarang
-                                </a>
+                                <div class="mt-4 flex flex-wrap gap-3">
+                                    <a href="{{ route('login') }}"
+                                        class="px-5 py-2 bg-[#183D57] hover:bg-[#2a5a7a] text-white rounded-lg transition duration-300">
+                                        Daftar Sekarang
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                @endguest
 
                 <!-- Form Donasi -->
                 <div id="donationFormCard" class="bg-white rounded-3xl shadow-xl overflow-hidden scroll-mt-24">
