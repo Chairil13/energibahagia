@@ -186,8 +186,8 @@ class ProgramDonasiController extends Controller
         if ($request->filled('search')) {
             $search = trim($request->search);
             $query->where(function ($q) use ($search) {
-                $q->where('judul', 'ilike', "%{$search}%")
-                    ->orWhere('deskripsi_singkat', 'ilike', "%{$search}%");
+                $q->where('judul', 'like', "%{$search}%")
+                    ->orWhere('deskripsi_singkat', 'like', "%{$search}%");
             });
         }
 
