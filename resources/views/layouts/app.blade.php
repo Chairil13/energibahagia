@@ -5,6 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="description"
+        content="@yield('meta_description', 'Energi Bahagia adalah platform donasi terpercaya untuk program pendidikan, kesehatan, sosial, kemanusiaan, ekonomi, dan lingkungan.')">
+    <meta name="robots" content="@yield('robots', 'index, follow')">
+    <link rel="canonical" href="@yield('canonical', url()->current())">
+    <meta property="og:title" content="@yield('title', 'Energi Bahagia') - Platform Donasi & Kebaikan">
+    <meta property="og:description"
+        content="@yield('meta_description', 'Energi Bahagia adalah platform donasi terpercaya untuk berbagi kebaikan secara mudah dan transparan.')">
+    <meta property="og:url" content="@yield('canonical', url()->current())">
+    <meta property="og:type" content="website">
     <title>@yield('title', 'Energi Bahagia') - Platform Donasi & Kebaikan</title>
 
     <!-- Tailwind CSS CDN -->

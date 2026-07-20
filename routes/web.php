@@ -15,6 +15,7 @@ use App\Http\Controllers\ProfileHeroController;
 use App\Http\Controllers\ProgramDonasiController;
 use App\Http\Controllers\SejarahLembagaController;
 use App\Http\Controllers\VisiMisiController;
+use App\Models\Berita;
 use App\Models\ProgramDonasi;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -61,6 +62,38 @@ Route::get('/donasi/{slug}', function ($slug) {
 Route::get('/kontak', function () {
     return view('home.contact');
 })->name('contact');
+
+Route::get('/sitemap.xml', function () {
+    $staticUrls = collect([
+        ['loc' => route('home'), 'lastmod' => now()],
+        ['loc' => route('profile'), 'lastmod' => now()],
+        ['loc' => route('programs'), 'lastmod' => now()],
+        ['loc' => route('news'), 'lastmod' => now()],
+        ['loc' => route('gallery'), 'lastmod' => now()],
+        ['loc' => route('cara.donasi'), 'lastmod' => now()],
+        ['loc' => route('contact'), 'lastmod' => now()],
+    ]);
+
+    $programUrls = ProgramDonasi::active()
+        ->latest('updated_at')
+        ->get(['slug', 'updated_at'])
+        ->map(fn (ProgramDonasi $program): array => [
+            'loc' => route('donation.detail', $program->slug),
+            'lastmod' => $program->updated_at,
+        ]);
+
+    $beritaUrls = Berita::where('status', 'publish')
+        ->latest('updated_at')
+        ->get(['slug', 'updated_at'])
+        ->map(fn (Berita $berita): array => [
+            'loc' => route('berita.detail', $berita->slug),
+            'lastmod' => $berita->updated_at,
+        ]);
+
+    return response()
+        ->view('sitemap', ['urls' => $staticUrls->merge($programUrls)->merge($beritaUrls)])
+        ->header('Content-Type', 'application/xml');
+})->name('sitemap');
 
 // ==================== ROUTE DONASI (PROSES) ====================
 Route::post('/donasi/confirm/{program_id}', [DonasiController::class, 'confirm'])->name('donasi.confirm');
