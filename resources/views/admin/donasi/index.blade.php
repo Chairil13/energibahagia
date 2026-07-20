@@ -150,11 +150,15 @@
                     <p class="mt-1 text-sm italic text-gray-600" id="confirmPesan"></p>
                 </div>
                 <div class="mb-4 grid gap-2 text-sm">
-                    <a href="#" id="confirmEmailLink"
-                        class="flex items-center gap-2 rounded-xl bg-blue-50 px-3 py-2 text-blue-700 hover:bg-blue-100 transition">
+                    <div class="rounded-xl bg-blue-50 px-3 py-2 text-blue-700">
+                        <div class="flex items-center gap-2">
                         <i class="fas fa-envelope w-5"></i>
                         <span id="confirmEmail"></span>
-                    </a>
+                        </div>
+                        <p class="mt-2 text-xs text-blue-500">
+                            Email konfirmasi detail akan dikirim otomatis setelah tombol Konfirmasi ditekan.
+                        </p>
+                    </div>
                 </div>
                 <div class="flex gap-3">
                     <button type="submit"
@@ -219,27 +223,16 @@
     </div>
 
     <script>
-        function buildConfirmationMessage(nama, nominal) {
-            return 'Halo ' + nama + ', donasi Anda sebesar Rp ' + new Intl.NumberFormat('id-ID').format(nominal) +
-                ' telah kami konfirmasi. Terima kasih atas kebaikan dan dukungan Anda untuk program Energi Bahagia.';
-        }
-
         function buildCancellationMessage(nama, nominal) {
             return 'Halo ' + nama + ', donasi Anda sebesar Rp ' + new Intl.NumberFormat('id-ID').format(nominal) +
                 ' ditolak oleh admin Energi Bahagia.\n\nAlasan penolakan: Donasi ditolak oleh admin.\n\nSilakan hubungi admin jika Anda merasa ada kekeliruan.';
         }
 
         function openConfirmModal(id, nama, nominal, email, phone, pesan) {
-            const confirmationMessage = buildConfirmationMessage(nama, nominal);
-            const emailSubject = 'Donasi Anda Telah Dikonfirmasi - Energi Bahagia';
-
             document.getElementById('confirmNama').innerText = nama;
             document.getElementById('confirmNominal').innerHTML = 'Rp ' + new Intl.NumberFormat('id-ID').format(nominal);
             document.getElementById('confirmPesan').innerText = pesan || '-';
             document.getElementById('confirmEmail').innerText = email || '-';
-            document.getElementById('confirmEmailLink').href = email ? 'mailto:' + email + '?subject=' + encodeURIComponent(
-                    emailSubject) + '&body=' + encodeURIComponent(confirmationMessage) :
-                '#';
             document.getElementById('confirmForm').action = '/admin/donasi/' + id + '/confirm';
             document.getElementById('confirmModal').classList.remove('hidden');
             document.getElementById('confirmModal').classList.add('flex');
