@@ -106,7 +106,21 @@
                             <td class="px-6 py-4">
                                 <div class="flex gap-2">
                                     <button
-                                        onclick="openConfirmModal({{ $donasi->id }}, @js($donasi->nama), {{ $donasi->nominal }}, @js($donasi->email), @js($donasi->phone), @js($donasi->pesan))"
+                                        onclick="openConfirmModal({
+                                            id: {{ $donasi->id }},
+                                            kodeUnik: @js($donasi->kode_unik),
+                                            nama: @js($donasi->nama),
+                                            nominal: {{ $donasi->nominal }},
+                                            email: @js($donasi->email),
+                                            phone: @js($donasi->phone),
+                                            pesan: @js($donasi->pesan),
+                                            program: @js($donasi->program->judul ?? '-'),
+                                            bank: @js($donasi->bank->nama_bank ?? '-'),
+                                            nomorRekening: @js($donasi->bank->nomor_rekening ?? '-'),
+                                            atasNama: @js($donasi->bank->atas_nama ?? '-'),
+                                            waktuDonasi: @js($donasi->created_at->format('d F Y H:i') . ' WIB'),
+                                            buktiTransfer: @js($donasi->bukti_transfer ? asset('uploads/bukti/' . $donasi->bukti_transfer) : '-')
+                                        })"
                                         class="bg-green-500 text-white px-3 py-1 rounded-lg text-sm hover:bg-green-600 transition">
                                         <i class="fas fa-check"></i>
                                     </button>
@@ -150,15 +164,16 @@
                     <p class="mt-1 text-sm italic text-gray-600" id="confirmPesan"></p>
                 </div>
                 <div class="mb-4 grid gap-2 text-sm">
-                    <div class="rounded-xl bg-blue-50 px-3 py-2 text-blue-700">
-                        <div class="flex items-center gap-2">
+                    <a href="#" id="confirmEmailLink"
+                        class="rounded-xl bg-blue-50 px-3 py-2 text-blue-700 hover:bg-blue-100 transition">
+                        <span class="flex items-center gap-2">
                         <i class="fas fa-envelope w-5"></i>
                         <span id="confirmEmail"></span>
-                        </div>
+                        </span>
                         <p class="mt-2 text-xs text-blue-500">
-                            Email konfirmasi detail akan dikirim otomatis setelah tombol Konfirmasi ditekan.
+                            Klik email ini untuk membuka pesan konfirmasi berisi detail donasi.
                         </p>
-                    </div>
+                    </a>
                 </div>
                 <div class="flex gap-3">
                     <button type="submit"
@@ -228,12 +243,47 @@
                 ' ditolak oleh admin Energi Bahagia.\n\nAlasan penolakan: Donasi ditolak oleh admin.\n\nSilakan hubungi admin jika Anda merasa ada kekeliruan.';
         }
 
-        function openConfirmModal(id, nama, nominal, email, phone, pesan) {
-            document.getElementById('confirmNama').innerText = nama;
-            document.getElementById('confirmNominal').innerHTML = 'Rp ' + new Intl.NumberFormat('id-ID').format(nominal);
-            document.getElementById('confirmPesan').innerText = pesan || '-';
-            document.getElementById('confirmEmail').innerText = email || '-';
-            document.getElementById('confirmForm').action = '/admin/donasi/' + id + '/confirm';
+        function buildConfirmationMessage(donasi) {
+            const nominalFormatted = new Intl.NumberFormat('id-ID').format(donasi.nominal);
+
+            return [
+                'DONASI TERKONFIRMASI',
+                'Terima kasih atas donasi Anda.',
+                '',
+                'Detail Donasi',
+                'Kode Unik: ' + donasi.kodeUnik,
+                'Program Donasi: ' + donasi.program,
+                'Nominal Donasi: Rp ' + nominalFormatted,
+                'Bank Tujuan: ' + donasi.bank,
+                'No. Rekening Tujuan: ' + donasi.nomorRekening + ' a.n ' + donasi.atasNama,
+                'Waktu Donasi: ' + donasi.waktuDonasi,
+                '',
+                'Data Diri',
+                'Nama Lengkap: ' + donasi.nama,
+                'Email: ' + donasi.email,
+                'Nomor Telepon: ' + donasi.phone,
+                donasi.pesan ? 'Doa / Pesan: "' + donasi.pesan + '"' : null,
+                '',
+                'Bukti Transfer',
+                donasi.buktiTransfer,
+                '',
+                'Semoga kebaikan Anda membawa manfaat luas bagi penerima program.',
+                'Terima kasih sudah menjadi bagian dari gerakan kebaikan Energi Bahagia.'
+            ].filter(Boolean).join('\n');
+        }
+
+        function openConfirmModal(donasi) {
+            const emailSubject = 'Donasi Anda Telah Dikonfirmasi - Energi Bahagia';
+            const confirmationMessage = buildConfirmationMessage(donasi);
+
+            document.getElementById('confirmNama').innerText = donasi.nama;
+            document.getElementById('confirmNominal').innerHTML = 'Rp ' + new Intl.NumberFormat('id-ID').format(donasi
+                .nominal);
+            document.getElementById('confirmPesan').innerText = donasi.pesan || '-';
+            document.getElementById('confirmEmail').innerText = donasi.email || '-';
+            document.getElementById('confirmEmailLink').href = donasi.email ? 'mailto:' + donasi.email + '?subject=' +
+                encodeURIComponent(emailSubject) + '&body=' + encodeURIComponent(confirmationMessage) : '#';
+            document.getElementById('confirmForm').action = '/admin/donasi/' + donasi.id + '/confirm';
             document.getElementById('confirmModal').classList.remove('hidden');
             document.getElementById('confirmModal').classList.add('flex');
         }

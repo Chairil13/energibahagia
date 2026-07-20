@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\DonationConfirmedMail;
 use App\Mail\DonationCancelledMail;
 use App\Models\Bank;
 use App\Models\Donasi;
@@ -144,12 +143,6 @@ class AdminDonasiController extends Controller
                 $program->dana_terkumpul += $donasi->nominal;
                 $program->jumlah_donatur += 1;
                 $program->save();
-            }
-
-            try {
-                Mail::to($donasi->email)->send(new DonationConfirmedMail($donasi));
-            } catch (\Exception $e) {
-                Log::error('Email gagal dikirim: '.$e->getMessage());
             }
 
             return redirect()->route('admin.donasi.index')->with('success', 'Donasi berhasil dikonfirmasi!');
