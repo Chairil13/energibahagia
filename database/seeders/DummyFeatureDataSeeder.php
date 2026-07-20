@@ -103,7 +103,7 @@ class DummyFeatureDataSeeder extends Seeder
                 'button_primary_link' => '/program',
                 'button_secondary_text' => 'Pelajari',
                 'button_secondary_link' => '/profile',
-                'hero_image' => '1783217678_6a49be0e7853d.jpeg',
+                'hero_image' => '1781691218_6a327352bd632.png',
                 'is_active' => true,
             ]
         );
@@ -257,7 +257,7 @@ class DummyFeatureDataSeeder extends Seeder
         $gallery = Gallery::firstOrNew(['judul' => 'Dokumentasi Program Energi Bahagia']);
         $gallery->fill([
             'deskripsi' => 'Kumpulan dokumentasi kegiatan penyaluran bantuan, edukasi, dan kolaborasi relawan.',
-            'gambar_utama' => '1782476934_cover.jpeg',
+            'gambar_utama' => '1782477040_cover.jpeg',
             'status' => 'active',
             'urutan' => 1,
         ]);
