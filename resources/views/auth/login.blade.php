@@ -14,7 +14,7 @@
                     <!-- Logo dan Judul -->
                     <div class="text-center mb-6">
                         <div class="flex justify-center mb-4">
-                            <img src="{{ asset('images/logo.png') }}" alt="Energi Bahagia" class="h-16 w-auto">
+                            <img src="{{ asset('images/logo.png') }}" alt="Energi Bahagia" class="h-20 w-auto">
                         </div>
                         <h1 class="text-2xl font-bold text-[#183D57] mb-1">Selamat Datang</h1>
                         <p class="text-gray-500 text-sm">Donatur Energi Bahagia</p>

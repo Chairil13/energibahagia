@@ -323,7 +323,7 @@
                 <div class="flex items-center gap-4 ml-auto">
                     <!-- Logo -->
                     <a href="{{ route('home') }}" class="hidden md:block">
-                        <img src="{{ asset('images/logo.png') }}" alt="Energi Bahagia" class="h-8 w-auto">
+                        <img src="{{ asset('images/logo.png') }}" alt="Energi Bahagia" class="h-10 w-auto">
                     </a>
                     <!-- Notifikasi -->
                     <div class="relative" x-data="{

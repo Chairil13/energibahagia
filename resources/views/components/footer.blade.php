@@ -8,7 +8,7 @@
             <div>
                 <div class="flex items-center space-x-3 mb-6">
                     <img src="{{ asset('images/logo.png') }}" alt="Energi Bahagia Logo"
-                        class="h-14 w-auto brightness-0 invert">
+                        class="h-20 w-auto brightness-0 invert">
                 </div>
                 <p class="text-gray-300 mb-6 leading-relaxed text-sm">
                     Bersama membangun masa depan yang lebih baik untuk mereka yang membutuhkan.

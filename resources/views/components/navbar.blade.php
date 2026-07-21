@@ -4,7 +4,7 @@
             <!-- Logo -->
             <div class="flex items-center">
                 <a href="{{ route('home') }}">
-                    <img src="{{ asset('images/logo.png') }}" alt="Energi Bahagia Logo" class="h-12 w-auto">
+                    <img src="{{ asset('images/logo.png') }}" alt="Energi Bahagia Logo" class="h-14 md:h-16 w-auto">
                 </a>
             </div>
 
