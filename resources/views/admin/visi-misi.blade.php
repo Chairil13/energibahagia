@@ -61,7 +61,7 @@
                         <label class="block text-gray-700 font-medium mb-2 text-sm">Visi</label>
                         <textarea name="visi" rows="4"
                             class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:border-[#8AD337] focus:ring-2 focus:ring-[#8AD337]/20">{{ old('visi', $visiMisi->visi) }}</textarea>
-                        <p class="text-xs text-gray-400 mt-1">Teks Visi lembaga</p>
+                        <p class="text-xs text-gray-400 mt-1">Teks Visi yayasan</p>
                     </div>
                 </div>
 

@@ -128,7 +128,7 @@ class DummyFeatureDataSeeder extends Seeder
             ['id' => 1],
             [
                 'badge_text' => 'PERJALANAN KAMI',
-                'title' => 'Sejarah Lembaga',
+                'title' => 'Sejarah Yayasan',
                 'content' => 'Energi Bahagia lahir dari gerakan kecil para relawan yang rutin membantu keluarga prasejahtera. Gerakan ini kemudian berkembang menjadi lembaga sosial yang mengelola donasi secara lebih terstruktur, transparan, dan berorientasi pada dampak jangka panjang.',
                 'institution_name' => 'Yayasan Energi Bahagia Indonesia',
                 'is_active' => true,

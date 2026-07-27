@@ -11,15 +11,16 @@ class SejarahLembagaController extends Controller
     public function index()
     {
         $sejarah = SejarahLembaga::first();
-        if (!$sejarah) {
+        if (! $sejarah) {
             $sejarah = SejarahLembaga::create([
                 'badge_text' => 'PERJALANAN KAMI',
-                'title' => 'Sejarah Lembaga',
+                'title' => 'Sejarah Yayasan',
                 'content' => 'didirikan atas dasar kepedulian dan bentuk aksi nyata untuk berkontribusi aktif dalam upaya pengentasan masalah sosial di tengah masyarakat melalui serangkaian program pemberdayaan ekonomi, pendidikan, kesehatan, lingkungan, dan kebencanaan.',
                 'institution_name' => 'Yayasan Energi Kebaikan Indonesia',
                 'is_active' => true,
             ]);
         }
+
         return view('admin.sejarah', compact('sejarah'));
     }
 
@@ -41,10 +42,11 @@ class SejarahLembagaController extends Controller
             $sejarah->institution_name = $request->institution_name;
             $sejarah->save();
 
-            return redirect()->route('admin.sejarah')->with('success', 'Sejarah Lembaga berhasil diupdate!');
+            return redirect()->route('admin.sejarah')->with('success', 'Sejarah Yayasan berhasil diupdate!');
         } catch (\Exception $e) {
-            Log::error('Sejarah update error: ' . $e->getMessage());
-            return redirect()->route('admin.sejarah')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            Log::error('Sejarah update error: '.$e->getMessage());
+
+            return redirect()->route('admin.sejarah')->with('error', 'Terjadi kesalahan: '.$e->getMessage());
         }
     }
 }

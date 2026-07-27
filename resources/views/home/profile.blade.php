@@ -77,7 +77,7 @@
             </div>
         </section>
     @endif
-    <!-- Sejarah Lembaga -->
+    <!-- Sejarah Yayasan -->
     @php
         use App\Models\SejarahLembaga;
         $sejarah = SejarahLembaga::first();

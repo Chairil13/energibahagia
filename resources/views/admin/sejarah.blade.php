@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Kelola Sejarah Lembaga - Admin Panel')
+@section('title', 'Kelola Sejarah Yayasan - Admin Panel')
 
 @section('content')
     <!-- Alert Success -->
@@ -27,13 +27,13 @@
     @endif
 
     <div class="mb-6">
-        <h1 class="text-2xl font-bold text-[#183D57]">Kelola Sejarah Lembaga</h1>
-        <p class="text-gray-500">Mengatur konten sejarah lembaga di halaman Profile</p>
+        <h1 class="text-2xl font-bold text-[#183D57]">Kelola Sejarah Yayasan</h1>
+        <p class="text-gray-500">Mengatur konten sejarah yayasan di halaman Profile</p>
     </div>
 
     <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
         <div class="bg-gradient-to-r from-[#183D57] to-[#2a5a7a] px-6 py-4">
-            <h3 class="text-white font-bold text-lg">Edit Sejarah Lembaga</h3>
+            <h3 class="text-white font-bold text-lg">Edit Sejarah Yayasan</h3>
         </div>
 
         <form action="{{ route('admin.sejarah.update', $sejarah->id) }}" method="POST" class="p-6">
@@ -54,15 +54,15 @@
                         <label class="block text-gray-700 font-medium mb-2 text-sm">Judul</label>
                         <input type="text" name="title" value="{{ old('title', $sejarah->title) }}"
                             class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:border-[#8AD337] focus:ring-2 focus:ring-[#8AD337]/20">
-                        <p class="text-xs text-gray-400 mt-1">Judul section (contoh: Sejarah Lembaga)</p>
+                        <p class="text-xs text-gray-400 mt-1">Judul section (contoh: Sejarah Yayasan)</p>
                     </div>
 
                     <div>
-                        <label class="block text-gray-700 font-medium mb-2 text-sm">Nama Lembaga</label>
+                        <label class="block text-gray-700 font-medium mb-2 text-sm">Nama Yayasan</label>
                         <input type="text" name="institution_name"
                             value="{{ old('institution_name', $sejarah->institution_name) }}"
                             class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:border-[#8AD337] focus:ring-2 focus:ring-[#8AD337]/20">
-                        <p class="text-xs text-gray-400 mt-1">Nama lembaga yang akan ditebalkan</p>
+                        <p class="text-xs text-gray-400 mt-1">Nama yayasan yang akan ditebalkan</p>
                     </div>
                 </div>
 
@@ -72,7 +72,7 @@
                         <label class="block text-gray-700 font-medium mb-2 text-sm">Konten Sejarah</label>
                         <textarea name="content" rows="8"
                             class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:border-[#8AD337] focus:ring-2 focus:ring-[#8AD337]/20">{{ old('content', $sejarah->content) }}</textarea>
-                        <p class="text-xs text-gray-400 mt-1">Isi teks sejarah lembaga (tanpa nama lembaga, karena akan
+                        <p class="text-xs text-gray-400 mt-1">Isi teks sejarah yayasan (tanpa nama yayasan, karena akan
                             ditambahkan otomatis)</p>
                     </div>
                 </div>
@@ -97,7 +97,7 @@
     <div class="mt-8">
         <h3 class="text-lg font-bold text-[#183D57] mb-4 flex items-center gap-2">
             <i class="fas fa-eye"></i>
-            Preview Sejarah Lembaga
+            Preview Sejarah Yayasan
         </h3>
         <div class="bg-gradient-to-r from-gray-100 to-gray-200 rounded-2xl p-6 border-2 border-dashed border-gray-300">
             <div class="text-center">

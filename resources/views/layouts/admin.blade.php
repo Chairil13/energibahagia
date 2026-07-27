@@ -213,7 +213,7 @@
                         <a href="{{ route('admin.sejarah') }}"
                             class="flex items-center gap-3 px-3 py-2 rounded-lg text-white/60 hover:text-[#8AD337] hover:bg-white/5 transition-all text-sm {{ request()->routeIs('admin.sejarah') ? 'text-[#8AD337] bg-white/5' : '' }}">
                             <i class="fas fa-user-circle w-4"></i>
-                            <span>Sejarah Lembaga</span>
+                            <span>Sejarah Yayasan</span>
                         </a>
                         <a href="{{ route('admin.visi-misi') }}"
                             class="flex items-center gap-3 px-3 py-2 rounded-lg text-white/60 hover:text-[#8AD337] hover:bg-white/5 transition-all text-sm {{ request()->routeIs('admin.visi-misi') ? 'text-[#8AD337] bg-white/5' : '' }}">
