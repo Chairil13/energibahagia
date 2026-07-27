@@ -345,10 +345,6 @@
                 Hubungi tim kami jika mengalami kendala saat melakukan donasi
             </p>
             <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <a href="#"
-                    class="group bg-[#8AD337] text-[#183D57] px-8 py-3 rounded-full font-bold hover:shadow-2xl transition-all duration-300 transform hover:scale-105 inline-flex items-center justify-center gap-2">
-                    <i class="fab fa-whatsapp"></i> Chat Admin
-                </a>
                 <a href="{{ route('contact') }}"
                     class="group border-2 border-white text-white px-8 py-3 rounded-full font-bold hover:bg-[#8AD337] hover:text-[#183D57] hover:border-[#8AD337] transition-all duration-300 transform hover:scale-105 inline-flex items-center justify-center gap-2">
                     <i class="fas fa-envelope"></i> Hubungi Kami
