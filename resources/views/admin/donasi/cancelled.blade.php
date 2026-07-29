@@ -26,8 +26,8 @@
 
     <!-- Statistik -->
     @php
-        $totalCancelled = $donasis->total();
-        $totalNominalCancelled = $donasis->sum('nominal');
+        $totalCancelled = $totalCancelled ?? $donasis->total();
+        $totalNominalCancelled = $totalNominalCancelled ?? $donasis->sum('nominal');
     @endphp
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
@@ -133,6 +133,10 @@
                                         class="bg-green-500 text-white px-3 py-1 rounded-lg text-xs hover:bg-green-600 transition">
                                         <i class="fas fa-undo"></i> Kembalikan
                                     </button>
+                                    <button onclick="deleteDonation({{ $donasi->id }})"
+                                        class="bg-red-500 text-white px-3 py-1 rounded-lg text-xs hover:bg-red-600 transition">
+                                        <i class="fas fa-trash"></i> Hapus
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -215,6 +219,41 @@
                         <i class="fas fa-undo mr-2"></i> Kembalikan ke Pending
                     </button>
                     <button type="button" onclick="closeRestore()"
+                        class="flex-1 bg-gray-200 text-gray-600 py-2 rounded-xl font-semibold hover:bg-gray-300 transition">
+                        Batal
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Modal Hapus Donasi -->
+    <div id="deleteModal" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-md mx-4">
+            <div class="bg-gradient-to-r from-red-500 to-red-600 px-6 py-4 rounded-t-2xl">
+                <h3 class="text-white font-bold text-lg">
+                    <i class="fas fa-trash mr-2"></i> Hapus Donasi Permanen
+                </h3>
+            </div>
+            <form id="deleteForm" method="POST" class="p-6">
+                @csrf
+                @method('DELETE')
+                <div class="mb-4">
+                    <div class="flex items-center gap-3 p-3 bg-red-50 rounded-xl border border-red-200">
+                        <i class="fas fa-exclamation-triangle text-red-500 text-xl"></i>
+                        <div>
+                            <p class="text-gray-600 text-sm">Apakah Anda yakin ingin menghapus donasi dari:</p>
+                            <p class="font-semibold text-[#183D57]" id="deleteNama"></p>
+                            <p class="font-bold text-red-600 text-lg mt-1" id="deleteNominal"></p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-red-500 mt-2">* Tindakan ini tidak dapat dibatalkan dan data donasi akan dihapus secara permanen.</p>
+                </div>
+                <div class="flex gap-3">
+                    <button type="submit"
+                        class="flex-1 bg-red-500 text-white py-2 rounded-xl font-semibold hover:bg-red-600 transition">
+                        <i class="fas fa-trash mr-2"></i> Ya, Hapus
+                    </button>
+                    <button type="button" onclick="closeDelete()"
                         class="flex-1 bg-gray-200 text-gray-600 py-2 rounded-xl font-semibold hover:bg-gray-300 transition">
                         Batal
                     </button>
@@ -334,11 +373,30 @@
         document.getElementById('restoreModal').classList.remove('flex');
     }
 
+    // Hapus Donasi
+    function deleteDonation(id) {
+        fetch(`/admin/donasi/${id}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('deleteNama').innerText = data.nama;
+                document.getElementById('deleteNominal').innerHTML = 'Rp ' + new Intl.NumberFormat('id-ID').format(data.nominal);
+                document.getElementById('deleteForm').action = `/admin/donasi/${id}`;
+                document.getElementById('deleteModal').classList.remove('hidden');
+                document.getElementById('deleteModal').classList.add('flex');
+            });
+    }
+
+    function closeDelete() {
+        document.getElementById('deleteModal').classList.add('hidden');
+        document.getElementById('deleteModal').classList.remove('flex');
+    }
+
     // Close modal with Escape key
     document.addEventListener('keydown', function(event) {
         if (event.key === 'Escape') {
             closeDetail();
             closeRestore();
+            closeDelete();
         }
     });
 
@@ -348,6 +406,9 @@
     });
     document.getElementById('restoreModal').addEventListener('click', function(e) {
         if (e.target === this) closeRestore();
+    });
+    document.getElementById('deleteModal').addEventListener('click', function(e) {
+        if (e.target === this) closeDelete();
     });
 </script>
 @endpush

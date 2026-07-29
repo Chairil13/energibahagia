@@ -15,14 +15,34 @@ use Illuminate\Support\Facades\Mail;
 class AdminDonasiController extends Controller
 {
     // Halaman daftar donasi pending
-    public function index()
+    public function index(Request $request)
     {
         $donationSetting = DonationSetting::current();
-        $donasis = Donasi::with(['program', 'bank', 'confirmedBy'])
+
+        $query = Donasi::with(['program', 'bank', 'confirmedBy'])
             ->where('status', 'pending')
-            ->whereNotNull('bukti_transfer')
-            ->orderBy('created_at', 'desc')
-            ->paginate(15);
+            ->whereNotNull('bukti_transfer');
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('nama', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('phone', 'like', "%{$search}%")
+                    ->orWhere('kode_unik', 'like', "%{$search}%")
+                    ->orWhere('pesan', 'like', "%{$search}%")
+                    ->orWhereHas('program', function ($qp) use ($search) {
+                        $qp->where('judul', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('bank', function ($qb) use ($search) {
+                        $qb->where('nama_bank', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        $donasis = $query->orderBy('created_at', 'desc')
+            ->paginate(15)
+            ->withQueryString();
 
         return view('admin.donasi.index', compact('donasis', 'donationSetting'));
     }
@@ -47,6 +67,7 @@ class AdminDonasiController extends Controller
     public function confirmed(Request $request)
     {
         $selectedProgramId = $request->get('program');
+        $search = $request->get('search');
 
         $query = Donasi::with(['program', 'bank', 'confirmedBy'])
             ->where('status', 'confirmed')
@@ -56,6 +77,22 @@ class AdminDonasiController extends Controller
             $query->where('program_id', $selectedProgramId);
         }
 
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nama', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('phone', 'like', "%{$search}%")
+                    ->orWhere('kode_unik', 'like', "%{$search}%")
+                    ->orWhere('pesan', 'like', "%{$search}%")
+                    ->orWhereHas('program', function ($qp) use ($search) {
+                        $qp->where('judul', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('bank', function ($qb) use ($search) {
+                        $qb->where('nama_bank', 'like', "%{$search}%");
+                    });
+            });
+        }
+
         $donasis = $query->orderBy('confirmed_at', 'desc')
             ->paginate(15)
             ->withQueryString();
@@ -63,6 +100,21 @@ class AdminDonasiController extends Controller
         $statsQuery = Donasi::where('status', 'confirmed')->where('nominal', '>=', 10000);
         if ($selectedProgramId && $selectedProgramId != '') {
             $statsQuery->where('program_id', $selectedProgramId);
+        }
+        if ($request->filled('search')) {
+            $statsQuery->where(function ($q) use ($search) {
+                $q->where('nama', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('phone', 'like', "%{$search}%")
+                    ->orWhere('kode_unik', 'like', "%{$search}%")
+                    ->orWhere('pesan', 'like', "%{$search}%")
+                    ->orWhereHas('program', function ($qp) use ($search) {
+                        $qp->where('judul', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('bank', function ($qb) use ($search) {
+                        $qb->where('nama_bank', 'like', "%{$search}%");
+                    });
+            });
         }
 
         $totalConfirmed = $statsQuery->sum('nominal');
@@ -79,6 +131,21 @@ class AdminDonasiController extends Controller
 
             if ($selectedProgramId && $selectedProgramId != '') {
                 $bankTotal->where('program_id', $selectedProgramId);
+            }
+            if ($request->filled('search')) {
+                $bankTotal->where(function ($q) use ($search) {
+                    $q->where('nama', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%")
+                        ->orWhere('phone', 'like', "%{$search}%")
+                        ->orWhere('kode_unik', 'like', "%{$search}%")
+                        ->orWhere('pesan', 'like', "%{$search}%")
+                        ->orWhereHas('program', function ($qp) use ($search) {
+                            $qp->where('judul', 'like', "%{$search}%");
+                        })
+                        ->orWhereHas('bank', function ($qb) use ($search) {
+                            $qb->where('nama_bank', 'like', "%{$search}%");
+                        });
+                });
             }
 
             $bankStats[$bank->id] = [
@@ -104,14 +171,37 @@ class AdminDonasiController extends Controller
     }
 
     // Halaman donasi ditolak
-    public function cancelled()
+    public function cancelled(Request $request)
     {
-        $donasis = Donasi::with(['program', 'bank'])
-            ->where('status', 'cancelled')
-            ->orderBy('updated_at', 'desc')
-            ->paginate(15);
+        $query = Donasi::with(['program', 'bank'])
+            ->where('status', 'cancelled');
 
-        return view('admin.donasi.cancelled', compact('donasis'));
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('nama', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('phone', 'like', "%{$search}%")
+                    ->orWhere('kode_unik', 'like', "%{$search}%")
+                    ->orWhere('pesan', 'like', "%{$search}%")
+                    ->orWhere('admin_note', 'like', "%{$search}%")
+                    ->orWhereHas('program', function ($qp) use ($search) {
+                        $qp->where('judul', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('bank', function ($qb) use ($search) {
+                        $qb->where('nama_bank', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        $totalCancelled = $query->count();
+        $totalNominalCancelled = (clone $query)->sum('nominal');
+
+        $donasis = $query->orderBy('updated_at', 'desc')
+            ->paginate(15)
+            ->withQueryString();
+
+        return view('admin.donasi.cancelled', compact('donasis', 'totalCancelled', 'totalNominalCancelled'));
     }
 
     // Proses konfirmasi donasi
@@ -239,6 +329,30 @@ class AdminDonasiController extends Controller
             Log::error('Restore donasi error: '.$e->getMessage());
 
             return redirect()->back()->with('error', 'Terjadi kesalahan: '.$e->getMessage());
+        }
+    }
+
+    // Hapus donasi secara permanen
+    public function destroy($id)
+    {
+        try {
+            $donasi = Donasi::findOrFail($id);
+
+            // Hapus bukti transfer jika ada di direktori uploads/bukti
+            if ($donasi->bukti_transfer) {
+                $filePath = public_path('uploads/bukti/'.$donasi->bukti_transfer);
+                if (file_exists($filePath)) {
+                    @unlink($filePath);
+                }
+            }
+
+            $donasi->delete();
+
+            return redirect()->back()->with('success', 'Donasi berhasil dihapus secara permanen!');
+        } catch (\Exception $e) {
+            Log::error('Hapus donasi error: '.$e->getMessage());
+
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus donasi: '.$e->getMessage());
         }
     }
 

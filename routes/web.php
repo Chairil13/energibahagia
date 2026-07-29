@@ -259,6 +259,10 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         ->name('admin.donasi.unconfirm')
         ->where('id', '[0-9]+');
 
+    Route::delete('/donasi/{id}', [AdminDonasiController::class, 'destroy'])
+        ->name('admin.donasi.destroy')
+        ->where('id', '[0-9]+');
+
     // ===== ROUTE NOTIFIKASI =====
     Route::get('/admin/notifications', [AdminController::class, 'getNotifications'])->name('admin.notifications');
 
