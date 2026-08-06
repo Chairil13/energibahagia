@@ -132,12 +132,14 @@
                                             <div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
                                                 :class="{
                                                     'bg-green-100 text-green-600': notif.type === 'success',
-                                                    'bg-red-100 text-red-600': notif.type === 'cancel'
+                                                    'bg-red-100 text-red-600': notif.type === 'cancel',
+                                                    'bg-amber-100 text-amber-600': notif.type === 'pending'
                                                 }">
                                                 <i class="text-sm"
                                                     :class="{
                                                         'fas fa-check-circle': notif.type === 'success',
-                                                        'fas fa-times-circle': notif.type === 'cancel'
+                                                        'fas fa-times-circle': notif.type === 'cancel',
+                                                        'fas fa-clock': notif.type === 'pending'
                                                     }"></i>
                                             </div>
                                             <div class="flex-1 min-w-0">

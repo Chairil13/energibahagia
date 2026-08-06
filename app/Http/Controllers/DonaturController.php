@@ -56,26 +56,48 @@ class DonaturController extends Controller
         }
 
         $notifications = Donasi::where('user_id', $user->id)
-            ->whereIn('status', ['confirmed', 'cancelled'])
+            ->whereIn('status', ['pending', 'confirmed', 'cancelled'])
             ->with(['program'])
-            ->orderBy('updated_at', 'desc')
+            ->orderBy('created_at', 'desc')
             ->take(10)
             ->get()
             ->map(function ($item) {
-                $isConfirmed = $item->status === 'confirmed';
                 $programTitle = $item->program ? $item->program->judul : 'Program Donasi';
                 $nominalFormatted = 'Rp '.number_format($item->nominal, 0, ',', '.');
 
+                if ($item->status === 'confirmed') {
+                    $type = 'success';
+                    $title = 'Donasi Dikonfirmasi';
+                    $message = "Donasi Anda sebesar {$nominalFormatted} untuk \"{$programTitle}\" telah dikonfirmasi oleh Admin.";
+                    $link = route('user.donation.detail', $item->id);
+                } elseif ($item->status === 'cancelled') {
+                    $type = 'cancel';
+                    $title = 'Donasi Dibatalkan/Ditolak';
+                    $message = "Donasi Anda sebesar {$nominalFormatted} untuk \"{$programTitle}\" telah dibatalkan/ditolak.";
+                    $link = route('user.donation.detail', $item->id);
+                } else {
+                    $type = 'pending';
+                    if (empty($item->bukti_transfer)) {
+                        $title = 'Menunggu Bukti Transfer';
+                        $message = "Donasi Anda sebesar {$nominalFormatted} untuk \"{$programTitle}\" telah dibuat. Silakan upload bukti transfer.";
+                        $link = route('donasi.payment', $item->kode_unik);
+                    } else {
+                        $title = 'Donasi Dalam Verifikasi';
+                        $message = "Donasi Anda sebesar {$nominalFormatted} untuk \"{$programTitle}\" telah dikirim & sedang diverifikasi admin.";
+                        $link = route('user.donation.detail', $item->id);
+                    }
+                }
+
+                $timeRef = $item->updated_at ?: $item->created_at;
+
                 return [
-                    'id' => 'donasi_status_'.$item->id.'_'.$item->status.'_'.($item->updated_at ? $item->updated_at->timestamp : time()),
-                    'type' => $isConfirmed ? 'success' : 'cancel',
+                    'id' => 'donasi_status_'.$item->id.'_'.$item->status.'_'.($timeRef ? $timeRef->timestamp : time()),
+                    'type' => $type,
                     'status' => $item->status,
-                    'title' => $isConfirmed ? 'Donasi Dikonfirmasi' : 'Donasi Dibatalkan/Ditolak',
-                    'message' => $isConfirmed
-                        ? "Donasi Anda sebesar {$nominalFormatted} untuk \"{$programTitle}\" telah dikonfirmasi oleh Admin."
-                        : "Donasi Anda sebesar {$nominalFormatted} untuk \"{$programTitle}\" telah dibatalkan/ditolak.",
-                    'time' => $item->updated_at ? $item->updated_at->diffForHumans() : '',
-                    'link' => route('user.donation.detail', $item->id),
+                    'title' => $title,
+                    'message' => $message,
+                    'time' => $timeRef ? $timeRef->diffForHumans() : '',
+                    'link' => $link,
                 ];
             });
 
