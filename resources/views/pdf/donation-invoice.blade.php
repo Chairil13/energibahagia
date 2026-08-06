@@ -42,7 +42,7 @@
         }
 
         .header-logo img {
-            height: 200px;
+            height: 170px;
             width: auto;
         }
 
