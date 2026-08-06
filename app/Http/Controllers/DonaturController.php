@@ -46,6 +46,43 @@ class DonaturController extends Controller
     }
 
     /**
+     * Get notifications for donatur
+     */
+    public function getNotifications()
+    {
+        $user = Auth::user();
+        if (! $user) {
+            return response()->json([]);
+        }
+
+        $notifications = Donasi::where('user_id', $user->id)
+            ->whereIn('status', ['confirmed', 'cancelled'])
+            ->with(['program'])
+            ->orderBy('updated_at', 'desc')
+            ->take(10)
+            ->get()
+            ->map(function ($item) {
+                $isConfirmed = $item->status === 'confirmed';
+                $programTitle = $item->program ? $item->program->judul : 'Program Donasi';
+                $nominalFormatted = 'Rp '.number_format($item->nominal, 0, ',', '.');
+
+                return [
+                    'id' => 'donasi_status_'.$item->id.'_'.$item->status.'_'.($item->updated_at ? $item->updated_at->timestamp : time()),
+                    'type' => $isConfirmed ? 'success' : 'cancel',
+                    'status' => $item->status,
+                    'title' => $isConfirmed ? 'Donasi Dikonfirmasi' : 'Donasi Dibatalkan/Ditolak',
+                    'message' => $isConfirmed
+                        ? "Donasi Anda sebesar {$nominalFormatted} untuk \"{$programTitle}\" telah dikonfirmasi oleh Admin."
+                        : "Donasi Anda sebesar {$nominalFormatted} untuk \"{$programTitle}\" telah dibatalkan/ditolak.",
+                    'time' => $item->updated_at ? $item->updated_at->diffForHumans() : '',
+                    'link' => route('user.donation.detail', $item->id),
+                ];
+            });
+
+        return response()->json($notifications);
+    }
+
+    /**
      * Riwayat Donasi
      */
     public function history(Request $request)

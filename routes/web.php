@@ -110,6 +110,7 @@ Route::get('/gallery/{id}/photos', [GalleryController::class, 'getPhotos'])->nam
 // ==================== ROUTE DONATUR (USER) ====================
 Route::middleware(['auth'])->prefix('donatur')->group(function () {
     Route::get('/dashboard', [DonaturController::class, 'dashboard'])->name('donatur.dashboard');
+    Route::get('/notifications', [DonaturController::class, 'getNotifications'])->name('donatur.notifications');
     Route::get('/riwayat', [DonaturController::class, 'history'])->name('donation.history');
     Route::get('/riwayat/{id}', [DonaturController::class, 'detail'])->name('user.donation.detail');
 

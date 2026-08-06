@@ -48,6 +48,115 @@
                         <span>Login</span>
                     </a>
                 @else
+                    <!-- Notifikasi Donatur -->
+                    <div class="relative" x-data="{
+                        open: false,
+                        notifications: [],
+                        unreadCount: 0,
+
+                        async fetchNotifications() {
+                            try {
+                                const response = await fetch('{{ route('donatur.notifications') }}');
+                                if (!response.ok) return;
+                                const data = await response.json();
+
+                                const readNotifications = JSON.parse(localStorage.getItem('donatur_read_notifications') || '[]');
+                                this.notifications = data.filter(n => !readNotifications.includes(n.id));
+                                this.unreadCount = this.notifications.length;
+                            } catch (e) {
+                                console.error(e);
+                            }
+                        },
+
+                        markAsRead(notifId, link) {
+                            let readNotifications = JSON.parse(localStorage.getItem('donatur_read_notifications') || '[]');
+                            if (!readNotifications.includes(notifId)) {
+                                readNotifications.push(notifId);
+                                localStorage.setItem('donatur_read_notifications', JSON.stringify(readNotifications));
+                            }
+
+                            this.notifications = this.notifications.filter(n => n.id !== notifId);
+                            this.unreadCount = this.notifications.length;
+
+                            if (link) {
+                                window.location.href = link;
+                            }
+                        },
+
+                        markAllAsRead() {
+                            const allIds = this.notifications.map(n => n.id);
+                            let readNotifications = JSON.parse(localStorage.getItem('donatur_read_notifications') || '[]');
+                            readNotifications = [...new Set([...readNotifications, ...allIds])];
+                            localStorage.setItem('donatur_read_notifications', JSON.stringify(readNotifications));
+
+                            this.notifications = [];
+                            this.unreadCount = 0;
+                            this.open = false;
+                        }
+                    }" x-init="fetchNotifications(); setInterval(() => fetchNotifications(), 30000)">
+
+                        <button @click="open = !open" class="relative p-2 text-[#183D57] hover:text-[#8AD337] transition focus:outline-none rounded-full hover:bg-gray-100 mr-2">
+                            <i class="fas fa-bell text-xl"></i>
+                            <span x-show="unreadCount > 0" x-text="unreadCount"
+                                class="absolute top-0 right-0 min-w-[18px] h-[18px] bg-red-500 text-white text-[11px] font-bold rounded-full flex items-center justify-center px-1 animate-pulse"
+                                style="display: none;"></span>
+                        </button>
+
+                        <!-- Dropdown Notifikasi -->
+                        <div x-show="open" @click.away="open = false"
+                            x-transition:enter="transition ease-out duration-200"
+                            x-transition:enter-start="opacity-0 translate-y-2 scale-95"
+                            x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                            x-transition:leave="transition ease-in duration-150"
+                            x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+                            x-transition:leave-end="opacity-0 translate-y-2 scale-95"
+                            class="absolute right-0 mt-2 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50"
+                            style="display: none;">
+
+                            <div class="bg-gradient-to-r from-[#183D57] to-[#2a5a7a] px-4 py-3 flex justify-between items-center">
+                                <div class="flex items-center gap-2">
+                                    <i class="fas fa-bell text-[#8AD337]"></i>
+                                    <p class="text-white font-semibold text-sm">Notifikasi Donasi</p>
+                                </div>
+                                <button x-show="unreadCount > 0" @click="markAllAsRead"
+                                    class="text-xs text-[#8AD337] hover:text-white transition underline">
+                                    Tandai semua dibaca
+                                </button>
+                            </div>
+
+                            <div class="max-h-80 overflow-y-auto divide-y divide-gray-100" x-show="notifications.length > 0">
+                                <template x-for="notif in notifications" :key="notif.id">
+                                    <a href="#" @click.prevent="markAsRead(notif.id, notif.link)"
+                                        class="block px-4 py-3 hover:bg-gray-50 transition cursor-pointer">
+                                        <div class="flex items-start gap-3">
+                                            <div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
+                                                :class="{
+                                                    'bg-green-100 text-green-600': notif.type === 'success',
+                                                    'bg-red-100 text-red-600': notif.type === 'cancel'
+                                                }">
+                                                <i class="text-sm"
+                                                    :class="{
+                                                        'fas fa-check-circle': notif.type === 'success',
+                                                        'fas fa-times-circle': notif.type === 'cancel'
+                                                    }"></i>
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-xs font-bold text-gray-800" x-text="notif.title"></p>
+                                                <p class="text-xs text-gray-600 mt-0.5 line-clamp-2 leading-relaxed" x-text="notif.message"></p>
+                                                <span class="text-[10px] text-gray-400 mt-1 block" x-text="notif.time"></span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </template>
+                            </div>
+
+                            <div x-show="notifications.length === 0" class="px-6 py-8 text-center">
+                                <i class="fas fa-bell-slash text-3xl text-gray-300 mb-2"></i>
+                                <p class="text-gray-500 text-xs font-medium">Tidak ada notifikasi baru</p>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Dropdown User - Versi Hover -->
                     <div class="relative group">
                         <button
