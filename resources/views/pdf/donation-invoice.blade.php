@@ -6,7 +6,7 @@
     <title>Kwitansi Donasi - Energi Bahagia</title>
     <style>
         @page {
-            margin: 10mm 12mm;
+            margin: 12mm 15mm;
         }
 
         * {
@@ -21,33 +21,33 @@
             background-color: #ffffff;
             font-size: 11px;
             line-height: 1.4;
+            padding: 12mm 15mm;
         }
 
         .outer-card {
             border: 2px solid #7cb342;
             border-radius: 12px;
-            padding: 18px 22px;
-            margin: 0;
+            padding: 16px 20px;
             background-color: #ffffff;
         }
 
         /* HEADER */
         .header-container {
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .header-logo {
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .header-logo img {
-            height: 46px;
+            height: 42px;
             width: auto;
         }
 
         .header-title {
-            font-size: 19px;
+            font-size: 18px;
             font-weight: bold;
             color: #183D57;
             letter-spacing: 1px;
@@ -65,17 +65,17 @@
         .header-tagline {
             font-style: italic;
             color: #555555;
-            font-size: 10.5px;
+            font-size: 10px;
             text-align: center;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
 
         /* INFO BOX */
         .info-box {
             background-color: #f8faf8;
             border-radius: 8px;
-            padding: 10px 14px;
-            margin-bottom: 16px;
+            padding: 8px 12px;
+            margin-bottom: 14px;
         }
 
         .info-table {
@@ -86,13 +86,13 @@
 
         .info-table td {
             padding: 3px 0;
-            font-size: 10.5px;
+            font-size: 10px;
             vertical-align: middle;
         }
 
         .info-label {
             color: #666666;
-            width: 140px;
+            width: 130px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             font-size: 9px;
@@ -107,7 +107,7 @@
         .info-value {
             color: #183D57;
             font-weight: bold;
-            font-size: 10.5px;
+            font-size: 10px;
         }
 
         .status-lunas {
@@ -122,8 +122,8 @@
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            padding-bottom: 4px;
-            margin-top: 12px;
+            padding-bottom: 3px;
+            margin-top: 10px;
             margin-bottom: 6px;
             border-bottom: 1.5px solid #7cb342;
         }
@@ -133,12 +133,12 @@
             width: 100%;
             border-collapse: collapse;
             table-layout: fixed;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .data-table tr td {
-            padding: 5px 0;
-            font-size: 10.5px;
+            padding: 4px 0;
+            font-size: 10px;
             border-bottom: 1px dashed #e8e8e8;
             vertical-align: middle;
         }
@@ -149,7 +149,7 @@
 
         .data-label {
             color: #555555;
-            width: 140px;
+            width: 130px;
         }
 
         .data-colon {
@@ -167,12 +167,12 @@
         .nominal-row td {
             border-top: 1.5px solid #7cb342 !important;
             border-bottom: 1.5px solid #7cb342 !important;
-            padding: 7px 0 !important;
+            padding: 6px 0 !important;
         }
 
         .nominal-value {
             color: #7cb342;
-            font-size: 14.5px;
+            font-size: 14px;
             font-weight: bold;
         }
 
@@ -180,8 +180,8 @@
         .signature-box {
             border: 1.5px solid #7cb342;
             border-radius: 8px;
-            padding: 12px 14px;
-            margin-top: 16px;
+            padding: 10px 12px;
+            margin-top: 14px;
             background-color: #ffffff;
         }
 
@@ -194,15 +194,15 @@
         .signature-left {
             width: 48%;
             vertical-align: middle;
-            padding-right: 12px;
+            padding-right: 10px;
             border-right: 1px solid #e0e0e0;
         }
 
         .thankyou-text {
             font-style: italic;
             color: #444444;
-            font-size: 10.5px;
-            line-height: 1.45;
+            font-size: 10px;
+            line-height: 1.4;
             text-align: center;
         }
 
@@ -210,44 +210,44 @@
             width: 52%;
             vertical-align: top;
             text-align: center;
-            padding-left: 12px;
+            padding-left: 10px;
         }
 
         .sig-title {
             color: #333333;
-            font-size: 10.5px;
+            font-size: 10px;
         }
 
         .sig-org {
             color: #183D57;
             font-weight: bold;
-            font-size: 10.5px;
-            margin-top: 2px;
+            font-size: 10px;
+            margin-top: 1px;
             margin-bottom: 2px;
         }
 
         .sig-images-wrapper {
-            height: 70px;
+            height: 65px;
             text-align: center;
             margin: 2px 0;
         }
 
         .sig-cap {
-            height: 65px;
+            height: 60px;
             width: auto;
             vertical-align: middle;
-            margin-right: -18px;
+            margin-right: -16px;
         }
 
         .sig-ttd {
-            height: 52px;
+            height: 48px;
             width: auto;
             vertical-align: middle;
         }
 
         .sig-footer {
             color: #555555;
-            font-size: 9.5px;
+            font-size: 9px;
             margin-top: 2px;
         }
     </style>
