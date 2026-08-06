@@ -223,13 +223,14 @@
             font-weight: bold;
             font-size: 10px;
             margin-top: 1px;
-            margin-bottom: 2px;
+            margin-bottom: 4px;
         }
 
         .sig-images-wrapper {
             height: 65px;
             text-align: center;
-            margin: 2px 0;
+            margin-top: 10px;
+            margin-bottom: 4px;
         }
 
         .sig-cap {
