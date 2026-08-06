@@ -143,9 +143,35 @@
                                 </a>
                             </div>
                         </div>
+                    @elseif($donasi->status == 'cancelled')
+                        <!-- Header Ditolak -->
+                        <div class="bg-gradient-to-r from-red-500 to-red-600 px-6 py-8 text-center">
+                            <div class="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-times-circle text-white text-4xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white">Donasi Ditolak</h3>
+                            <p class="text-white/80 mt-2">Maaf, donasi Anda tidak dapat diproses</p>
+                        </div>
+
+                        <div class="p-6 md:p-8 text-center">
+                            <i class="fas fa-times-circle text-red-500 text-5xl mb-4"></i>
+                            <p class="text-gray-600 mb-2">Donasi Anda telah ditolak oleh admin.</p>
+                            @if ($donasi->admin_note)
+                                <p class="text-sm text-red-600 font-semibold mb-4 bg-red-50 p-3 rounded-xl border border-red-200 inline-block">
+                                    <i class="fas fa-info-circle mr-1"></i> Alasan: {{ $donasi->admin_note }}
+                                </p>
+                            @endif
+                            <div class="mt-2">
+                                <a href="{{ route('programs') }}"
+                                    class="inline-block bg-[#8AD337] text-[#183D57] px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition">
+                                    <i class="fas fa-hand-holding-heart mr-2"></i>
+                                    Donasi Lagi
+                                </a>
+                            </div>
+                        </div>
                     @elseif($donasi->status == 'expired')
                         <!-- Header Kadaluarsa -->
-                        <div class="bg-gradient-to-r from-red-500 to-red-600 px-6 py-8 text-center">
+                        <div class="bg-gradient-to-r from-gray-500 to-gray-600 px-6 py-8 text-center">
                             <div class="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
                                 <i class="fas fa-clock text-white text-4xl"></i>
                             </div>
@@ -154,7 +180,7 @@
                         </div>
 
                         <div class="p-6 md:p-8 text-center">
-                            <i class="fas fa-exclamation-triangle text-red-500 text-5xl mb-4"></i>
+                            <i class="fas fa-exclamation-triangle text-gray-500 text-5xl mb-4"></i>
                             <p class="text-gray-600 mb-4">Donasi Anda sudah kadaluarsa karena tidak melakukan pembayaran
                                 tepat waktu.</p>
                             <a href="{{ route('programs') }}"

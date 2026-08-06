@@ -19,7 +19,8 @@
                         class="px-6 py-4 text-white text-center
                     @if ($donasi->status == 'confirmed') bg-gradient-to-r from-[#8AD337] to-[#6fb32e]
                     @elseif($donasi->status == 'pending') bg-gradient-to-r from-yellow-500 to-yellow-600
-                    @else bg-gradient-to-r from-red-500 to-red-600 @endif">
+                    @elseif($donasi->status == 'cancelled') bg-gradient-to-r from-red-500 to-red-600
+                    @else bg-gradient-to-r from-gray-500 to-gray-600 @endif">
                         @if ($donasi->status == 'confirmed')
                             <i class="fas fa-check-circle text-3xl mb-2"></i>
                             <h2 class="text-xl font-bold">Donasi Terkonfirmasi</h2>
@@ -28,8 +29,12 @@
                             <i class="fas fa-clock text-3xl mb-2"></i>
                             <h2 class="text-xl font-bold">Menunggu Konfirmasi</h2>
                             <p class="text-white/80 text-sm">Donasi Anda sedang diverifikasi</p>
-                        @else
+                        @elseif($donasi->status == 'cancelled')
                             <i class="fas fa-times-circle text-3xl mb-2"></i>
+                            <h2 class="text-xl font-bold">Donasi Ditolak</h2>
+                            <p class="text-white/80 text-sm">Donasi Anda ditolak oleh admin</p>
+                        @else
+                            <i class="fas fa-hourglass-end text-3xl mb-2"></i>
                             <h2 class="text-xl font-bold">Donasi Kadaluarsa</h2>
                             <p class="text-white/80 text-sm">Waktu pembayaran telah habis</p>
                         @endif

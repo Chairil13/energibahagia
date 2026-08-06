@@ -17,7 +17,23 @@
                     </div>
                 @endif
 
-                @if ($isTransferExpired)
+                @if ($donasi->status === 'cancelled')
+                    <div class="bg-red-100 border border-red-400 text-red-700 rounded-xl p-6 text-center">
+                        <i class="fas fa-times-circle text-5xl mb-3 text-red-600"></i>
+                        <h3 class="text-xl font-bold mb-2">Donasi Telah Ditolak!</h3>
+                        <p class="mb-2">Donasi Anda telah ditolak oleh admin.</p>
+                        @if ($donasi->admin_note)
+                            <p class="text-sm font-semibold mb-3 bg-red-50 p-2 rounded-lg inline-block border border-red-200">
+                                Alasan: {{ $donasi->admin_note }}
+                            </p>
+                        @endif
+                        <div>
+                            <a href="{{ route('programs') }}"
+                                class="inline-block mt-2 bg-[#8AD337] text-[#183D57] px-6 py-2 rounded-full font-semibold">Kembali
+                                ke Program Donasi</a>
+                        </div>
+                    </div>
+                @elseif ($isTransferExpired)
                     <div class="bg-red-100 border border-red-400 text-red-700 rounded-xl p-6 text-center">
                         <i class="fas fa-clock text-5xl mb-3"></i>
                         <h3 class="text-xl font-bold mb-2">Donasi Telah Kadaluarsa!</h3>

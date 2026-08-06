@@ -62,6 +62,10 @@ class Donasi extends Model
     // Cek expired
     public function isExpired()
     {
-        return now()->greaterThan($this->expires_at);
+        if (in_array($this->status, ['confirmed', 'cancelled'])) {
+            return false;
+        }
+
+        return $this->expires_at ? now()->greaterThan($this->expires_at) : false;
     }
 }
