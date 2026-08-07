@@ -259,7 +259,7 @@
         $logoPath = public_path('images/logo.png');
         $logoData = file_exists($logoPath) ? 'data:image/png;base64,' . base64_encode(file_get_contents($logoPath)) : '';
 
-        $capPath = public_path('images/cap yayasan.png');
+        $capPath = public_path('images/logo.png');
         $capData = file_exists($capPath) ? 'data:image/png;base64,' . base64_encode(file_get_contents($capPath)) : '';
 
         $ttdPath = public_path('images/ttd.png');
