@@ -237,7 +237,8 @@
             height: 60px;
             width: auto;
             vertical-align: middle;
-            margin-right: -16px;
+            margin-left: -35px;
+            margin-right: 15px;
         }
 
         .sig-ttd {
