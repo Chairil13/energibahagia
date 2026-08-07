@@ -237,7 +237,7 @@
             height: 60px;
             width: auto;
             vertical-align: middle;
-            margin-left: -20px;
+            margin-left: -40px;
             margin-right: -20px;
         }
 
